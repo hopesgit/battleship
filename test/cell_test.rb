@@ -52,12 +52,25 @@ class CellTest < Minitest::Test
 
   def test_fire_upon_attribute
     cell = Cell.new("A3")
+    submarine = Ship.new("Submarine", 2)
+    cell.place_ship(submarine)
 
     assert_equal false, cell.fired_upon?
+    assert_equal 2, cell.ship.health
 
     cell.fire_upon
 
     assert_equal true, cell.fired_upon?
+    assert_equal 1, cell.ship.health
+  end
+
+  def test_it_can_not_be_fired_on_twice
+    cell = Cell.new("C2")
+    cell.fire_upon
+
+    assert_equal true, cell.fired_upon?
+
+    assert_equal "This cell has already been fired upon.", cell.fire_upon
   end
 
   def test_it_can_render_basic_states
@@ -97,7 +110,6 @@ class CellTest < Minitest::Test
   def test_it_can_render_sunk
     cell = Cell.new("A3")
     submarine = Ship.new("Submarine", 2)
-    submarine.hit
     submarine.hit
     cell.place_ship(submarine)
 

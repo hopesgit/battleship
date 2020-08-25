@@ -22,7 +22,12 @@ class Cell
   end
 
   def fire_upon
-    @fired_upon = true
+    if @fired_upon == false
+      @fired_upon = true
+      ship.hit if empty? == false
+    else
+      "This cell has already been fired upon."
+    end
   end
 
   def render(show = false)
