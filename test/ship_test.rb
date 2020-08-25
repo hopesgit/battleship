@@ -34,4 +34,10 @@ class ShipTest < Minitest::Test
     refute cruiser.sunk?
   end
 
+  def test_it_can_get_hit
+    cruiser = Ship.new("Cruiser", 3)
+
+    assert cruiser.respond_to?(:hit)
+  end
+
 end

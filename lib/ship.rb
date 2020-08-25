@@ -11,4 +11,8 @@ class Ship
     @health.zero?
   end
 
+  def hit
+
+  end
+
 end
