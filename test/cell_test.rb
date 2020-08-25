@@ -29,6 +29,16 @@ class CellTest < Minitest:: Test
     assert_nil cell.ship
   end
 
+  def test_fire_upon_attribute
+    cell = Cell.new("A3")
+
+    assert_equal false, cell.fired_upon?
+
+    cell.fire_upon
+
+    assert_equal true, cell.fired_upon?
+  end
+
   def test_it_can_render_basic_states
     cell = Cell.new("B4")
     cruiser = "Cruiser", 3
