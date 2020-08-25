@@ -22,4 +22,10 @@ class ShipTest < Minitest::Test
     assert_equal 3, cruiser.length
   end
 
+  def test_it_has_health_attribute
+    cruiser = Ship.new("Cruiser", 3)
+
+    assert_equal 3, cruiser.health
+  end
+
 end
