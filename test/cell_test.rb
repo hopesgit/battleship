@@ -48,6 +48,7 @@ class CellTest < Minitest::Test
     cell.place_ship(cruiser)
 
     assert_instance_of Ship, cell.ship
+  end
 
   def test_fire_upon_attribute
     cell = Cell.new("A3")
@@ -67,8 +68,44 @@ class CellTest < Minitest::Test
 
     cell.place_ship(cruiser)
 
-    assert_equal ""
+    assert_equal ".", cell.render
     assert_equal "S", cell.render(true)
   end
 
+  def test_it_can_render_miss
+    cell = Cell.new("A3")
+    cell.fire_upon
+
+    assert_equal true, cell.fired_upon?
+    assert_equal "M", cell.render
+  end
+
+  def test_it_can_render_hit
+
+    cell = Cell.new("A3")
+    cruiser = Ship.new("Cruiser", 3)
+
+    cell.place_ship(cruiser)
+
+    assert_equal ".", cell.render
+
+    cell.fire_upon
+
+    assert_equal "H", cell.render
+  end
+
+  def test_it_can_render_sunk
+    cell = Cell.new("A3")
+    submarine = Ship.new("Submarine", 2)
+    submarine.hit
+    submarine.hit
+    cell.place_ship(submarine)
+
+    assert_equal ".", cell.render
+
+    cell.fire_upon
+
+    assert_equal true, cell.ship.sunk?
+    assert_equal "X", cell.render
+  end
 end
