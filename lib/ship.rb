@@ -7,4 +7,8 @@ class Ship
     @health = length
   end
 
+  def sunk?
+    @health.zero?
+  end
+
 end
