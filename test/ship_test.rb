@@ -40,4 +40,12 @@ class ShipTest < Minitest::Test
     assert cruiser.respond_to?(:hit)
   end
 
+  def test_hit_reduces_health_by_one
+    cruiser = Ship.new("Cruiser", 3)
+
+    cruiser.hit
+
+    assert_equal 2, cruiser.health
+  end
+
 end
