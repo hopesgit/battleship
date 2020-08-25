@@ -17,4 +17,10 @@ class CellTest < Minitest:: Test
     assert_equal "B4", cell.coordinate
   end
 
+  def test_it_can_reference_ship
+    cell = Cell.new("B4")
+
+    assert cell.respond_to?(:ship)
+  end
+
 end
