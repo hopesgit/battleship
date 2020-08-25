@@ -23,4 +23,10 @@ class CellTest < Minitest:: Test
     assert cell.respond_to?(:ship)
   end
 
+  def test_it_is_created_without_ship_placed
+    cell = Cell.new("B4")
+
+    assert_nil cell.ship
+  end
+
 end
