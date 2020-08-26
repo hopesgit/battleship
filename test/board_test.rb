@@ -33,4 +33,15 @@ class BoardTest < Minitest::Test
 
     assert board.respond_to?(:valid_placement?)
   end
+
+  def test_it_can_validate_placement_by_length
+    board = Board.new
+
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    refute board.valid_placement?(cruiser, ["A1", "A2"])
+    refute board.valid_placement?(submarine, ["A2", "A3", "A4"])
+    assert board.valid_placement?(cruiser, ["A1", "A2", "A3"])
+  end
 end
