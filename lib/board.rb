@@ -2,10 +2,11 @@ require "./lib/ship"
 require "./lib/cell"
 
 class Board
-  attr_reader :cells
+  attr_reader :cells, :valid_coordinates
 
   def initialize
     @cells = generate_cells
+    @valid_coordinates = generate_valid_coordinates
   end
 
   def generate_cells
@@ -21,7 +22,24 @@ class Board
     @cells.has_key?(coordinate)
   end
 
-  def valid_placement?(ship, coordinates)
-    ship.length == coordinates.length
+  def generate_valid_coordinates
+    valid_coordinates = Array.new
+
+    @cells.keys.each_slice(4) do |column|
+      valid_coordinates.push(column)
+    end
+    valid_coordinates += valid_coordinates.transpose
   end
+
+  def valid_placement?(ship, coordinates)
+
+    consecutive_check = @valid_coordinates.any? do |set|
+      set.each_cons(coordinates.length).any? do |sub_set|
+        sub_set == coordinates
+      end
+    end
+
+    ship.length == coordinates.length && consecutive_check
+  end
+
 end
