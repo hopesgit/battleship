@@ -1,6 +1,7 @@
 require "minitest/autorun"
 require "minitest/pride"
 require "./lib/board"
+require "./lib/ship"
 
 class BoardTest < Minitest::Test
 
@@ -25,5 +26,11 @@ class BoardTest < Minitest::Test
     assert board.valid_coordinate?("D4")
     refute board.valid_coordinate?("A5")
     refute board.valid_coordinate?("A22")
+  end
+
+  def test_it_has_valid_placement_method
+    board = Board.new
+
+    assert board.respond_to?(:valid_placement?)
   end
 end
