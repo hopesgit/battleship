@@ -26,4 +26,17 @@ class BoardTest < Minitest::Test
     refute board.valid_coordinate?("A5")
     refute board.valid_coordinate?("A22")
   end
+
+  def test_rendering_bare_board
+    board = Board.new
+
+    assert_equal ". . . .\n. . . .\n. . . .\n. . . .", board.render
+  end
+
+  def test_rendering_board_with_misses
+    board = Board.new
+    board.cells["B4"].fire_upon
+
+    assert_equal ". . . .\n. . . M\n. . . .\n. . . .", board.render
+  end
 end
