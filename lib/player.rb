@@ -2,8 +2,7 @@ require './lib/ship'
 require './lib/board'
 
 class Player
-  attr_reader :cruiser, :submarine
-  attr_accessor :board
+  attr_reader :cruiser, :submarine, :board
 
   def initialize
     @cruiser = Ship.new("Cruiser", 3)
@@ -17,6 +16,14 @@ class Player
 
   def has_lost?
     @cruiser.sunk? && @submarine.sunk?
+  end
+
+  def place_ship(ship, coordinates)
+    @board.place(ship, coordinates)
+  end
+
+  def receive_fire(coordinate)
+    @board.cells[coordinate].fire_upon
   end
 
 end

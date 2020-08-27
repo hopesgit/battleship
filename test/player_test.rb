@@ -57,4 +57,38 @@ class PlayerTest < Minitest::Test
 
     assert computer.has_lost?
   end
+
+  def test_it_can_place_ships
+    user = Player.new
+
+    coordinates = ["A1", "A2", "A3"]
+
+    user.place_ship(user.cruiser, coordinates)
+
+    assert_equal user.cruiser, user.board.cells["A1"].ship
+    assert_equal user.cruiser, user.board.cells["A2"].ship
+    assert_equal user.cruiser, user.board.cells["A3"].ship
+  end
+
+  def test_it_can_fire_at_board_of_opponent
+    computer = Player.new
+    user = Player.new
+
+    computer.place_ship(computer.cruiser, ["B1", "C1", "D1"])
+    user.place_ship(user.cruiser, ["A1", "A2", "A3"])
+
+    computer.receive_fire("A1")
+
+    assert computer.board.cells["A1"].fired_upon?
+
+    user.receive_fire("A2")
+
+    assert user.board.cells["A2"].fired_upon?
+
+    assert_equal "M . . .\n. . . .\n. . . .\n. . . .", computer.board.render
+    assert_equal ". H . .\n. . . .\n. . . .\n. . . .", user.board.render
+
+    assert_equal 3, computer.cruiser.health
+    assert_equal 2, user.cruiser.health
+  end
 end
