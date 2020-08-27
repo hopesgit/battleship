@@ -40,4 +40,25 @@ class Board
     ship.length == coordinates.length && consecutive_check
   end
 
+  def place(ship, coordinates)
+    if valid_placement?(ship, coordinates)
+      coordinates.each do |coordinate|
+        @cells[coordinate].place_ship(ship)
+      end
+    end
+  end
+
+  def render_base(reveal = false)
+    @cells.values.map do |cell|
+      cell.render(reveal)
+    end
+  end
+
+  def render(reveal = false)
+    text_to_render = []
+    render_base(reveal).each_slice(4) do |line|
+      text_to_render << line.join(" ")
+    end
+    text_to_render.join("\n")
+  end
 end

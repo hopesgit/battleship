@@ -72,12 +72,54 @@ class BoardTest < Minitest::Test
 
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
-    
+
     assert board.valid_placement?(submarine, ["C1", "C2"])
     assert board.valid_placement?(submarine, ["B1", "C1"])
     assert board.valid_placement?(cruiser, ["A1", "B1", "C1"])
     assert board.valid_placement?(cruiser, ["A1", "A2", "A3"])
     assert board.valid_placement?(submarine, ["A1", "A2"])
     assert board.valid_placement?(cruiser, ["B1", "C1", "D1"])
+  end
+
+  def test_ships_can_be_placed
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+
+    board.place(cruiser, ["A1", "A2", "A3"])
+
+    assert_equal cruiser, board.cells["A1"].ship
+    assert_equal cruiser, board.cells["A2"].ship
+    assert_equal cruiser, board.cells["A3"].ship
+  end
+
+  def test_rendering_bare_board
+    board = Board.new
+
+    assert_equal ". . . .\n. . . .\n. . . .\n. . . .", board.render
+  end
+
+  def test_rendering_board_with_misses
+    board = Board.new
+    board.cells["B4"].fire_upon
+
+    assert_equal ". . . .\n. . . M\n. . . .\n. . . .", board.render
+  end
+
+  def test_render_with_ships
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    board.place(cruiser, ["A1", "A2", "A3"])
+    board.place(submarine, ["C3", "D3"])
+
+    board.cells["A1"].fire_upon
+    board.cells["A2"].fire_upon
+    board.cells["A3"].fire_upon
+    board.cells["C2"].fire_upon
+    board.cells["D3"].fire_upon
+
+    assert_equal "X X X .\n. . . .\n. M . .\n. . H .", board.render
+    assert_equal "X X X .\n. . . .\n. M S .\n. . H .", board.render(true)
   end
 end
