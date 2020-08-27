@@ -15,4 +15,8 @@ class Player
     board.valid_coordinates.sample.take(ship.length)
   end
 
+  def has_lost?
+    @cruiser.sunk? && @submarine.sunk?
+  end
+
 end

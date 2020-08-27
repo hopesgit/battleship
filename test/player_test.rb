@@ -36,6 +36,25 @@ class PlayerTest < Minitest::Test
 
     assert computer.board.valid_placement?(computer.cruiser, cruiser_coordinates)
     assert computer.board.valid_placement?(computer.submarine, submarine_coordinates)
+  end
 
+  def test_it_can_lose
+    computer = Player.new
+
+    refute computer.has_lost?
+
+    computer.cruiser.hit
+
+    refute computer.has_lost?
+
+    2.times {computer.cruiser.hit}
+
+    assert computer.cruiser.sunk?
+
+    refute computer.has_lost?
+
+    2.times {computer.submarine.hit}
+
+    assert computer.has_lost?
   end
 end
