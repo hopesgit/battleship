@@ -12,4 +12,10 @@ class PlayerTest < Minitest::Test
     assert_instance_of Player, user
   end
 
+  def test_get_player_ships
+    computer = Player.new
+
+    assert_instance_of Ship, computer.cruiser
+    assert_instance_of Ship, computer.submarine
+  end
 end
