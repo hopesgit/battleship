@@ -95,14 +95,14 @@ class BoardTest < Minitest::Test
   def test_rendering_bare_board
     board = Board.new
 
-    assert_equal ". . . .\n. . . .\n. . . .\n. . . .", board.render
+    assert_equal "  1 2 3 4\nA . . . .\nB . . . .\nC . . . .\nD . . . .", board.render
   end
 
   def test_rendering_board_with_misses
     board = Board.new
     board.cells["B4"].fire_upon
 
-    assert_equal ". . . .\n. . . M\n. . . .\n. . . .", board.render
+    assert_equal "  1 2 3 4\nA . . . .\nB . . . M\nC . . . .\nD . . . .", board.render
   end
 
   def test_render_with_ships
@@ -119,7 +119,7 @@ class BoardTest < Minitest::Test
     board.cells["C2"].fire_upon
     board.cells["D3"].fire_upon
 
-    assert_equal "X X X .\n. . . .\n. M . .\n. . H .", board.render
-    assert_equal "X X X .\n. . . .\n. M S .\n. . H .", board.render(true)
+    assert_equal "  1 2 3 4\nA X X X .\nB . . . .\nC . M . .\nD . . H .", board.render
+    assert_equal "  1 2 3 4\nA X X X .\nB . . . .\nC . M S .\nD . . H .", board.render(true)
   end
 end
