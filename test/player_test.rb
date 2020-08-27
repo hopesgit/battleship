@@ -18,4 +18,10 @@ class PlayerTest < Minitest::Test
     assert_instance_of Ship, computer.cruiser
     assert_instance_of Ship, computer.submarine
   end
+
+  def test_player_starts_with_board
+    computer = Player.new
+
+    assert_instance_of Board, computer.board
+  end
 end
