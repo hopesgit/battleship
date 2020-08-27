@@ -85,8 +85,8 @@ class PlayerTest < Minitest::Test
 
     assert user.board.cells["A2"].fired_upon?
 
-    assert_equal "M . . .\n. . . .\n. . . .\n. . . .", computer.board.render
-    assert_equal ". H . .\n. . . .\n. . . .\n. . . .", user.board.render
+    assert_equal "  1 2 3 4\nA M . . .\nB . . . .\nC . . . .\nD . . . .", computer.board.render
+    assert_equal "  1 2 3 4\nA . H . .\nB . . . .\nC . . . .\nD . . . .", user.board.render
 
     assert_equal 3, computer.cruiser.health
     assert_equal 2, user.cruiser.health
