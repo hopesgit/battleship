@@ -32,13 +32,11 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-
     consecutive_check = @valid_coordinates.any? do |set|
       set.each_cons(coordinates.length).any? do |sub_set|
         sub_set == coordinates
       end
     end
-
     ship.length == coordinates.length && consecutive_check
   end
 
