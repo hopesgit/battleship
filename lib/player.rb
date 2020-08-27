@@ -11,4 +11,8 @@ class Player
     @board = Board.new
   end
 
+  def pick_random_ship_coordinates(ship)
+    board.valid_coordinates.sample.take(ship.length)
+  end
+
 end

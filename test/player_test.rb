@@ -19,9 +19,23 @@ class PlayerTest < Minitest::Test
     assert_instance_of Ship, computer.submarine
   end
 
-  def test_player_starts_with_board
+  def test_it_starts_with_board
     computer = Player.new
 
     assert_instance_of Board, computer.board
+  end
+
+  def test_get_random_ship_coordinates
+    computer = Player.new
+
+    cruiser_coordinates = computer.pick_random_ship_coordinates(computer.cruiser)
+    submarine_coordinates = computer.pick_random_ship_coordinates(computer.submarine)
+
+    assert_equal 3, cruiser_coordinates.length
+    assert_equal 2, submarine_coordinates.length
+
+    assert computer.board.valid_placement?(computer.cruiser, cruiser_coordinates)
+    assert computer.board.valid_placement?(computer.submarine, submarine_coordinates)
+
   end
 end
