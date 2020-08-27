@@ -4,11 +4,11 @@ require "./lib/board"
 require "./lib/player"
 
 class Game
-  attr_reader :player1, :player2, :winner
+  attr_reader :player, :cpu, :winner
 
-  def initialize(player1, player2)
-    @player1 = player1
-    @player2 = player2
+  def initialize
+    @player = Player.new
+    @cpu = Player.new
     @winner = nil
   end
 end
