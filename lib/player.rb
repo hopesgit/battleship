@@ -2,7 +2,8 @@ require './lib/ship'
 require './lib/board'
 
 class Player
-  attr_reader :cruiser, :submarine, :board, :name
+  attr_accessor :name
+  attr_reader :cruiser, :submarine, :board
 
   def initialize
     @name = nil
