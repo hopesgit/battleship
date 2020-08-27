@@ -54,9 +54,18 @@ class Board
     end
   end
 
+  def render_prep(reveal = false)
+    base = render_base(reveal)
+    base.insert(12, "D")
+    base.insert(8, "C")
+    base.insert(4, "B")
+    base.unshift([" ", "1", "2", "3", "4", "A"]).flatten!
+    base
+  end
+
   def render(reveal = false)
     text_to_render = []
-    render_base(reveal).each_slice(4) do |line|
+    render_prep(reveal).each_slice(5) do |line|
       text_to_render << line.join(" ")
     end
     text_to_render.join("\n")
