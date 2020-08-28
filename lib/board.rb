@@ -31,13 +31,19 @@ class Board
     valid_coordinates += valid_coordinates.transpose
   end
 
+  def coordinates_empty?(coordinates)
+    coordinates.all? do |coordinate|
+      @cells[coordinate].empty?
+    end
+  end
+
   def valid_placement?(ship, coordinates)
-    consecutive_check = @valid_coordinates.any? do |set|
+    valid_check = @valid_coordinates.any? do |set|
       set.each_cons(coordinates.length).any? do |sub_set|
-        sub_set == coordinates
+        sub_set == coordinates && coordinates_empty?(sub_set)
       end
     end
-    ship.length == coordinates.length && consecutive_check
+    ship.length == coordinates.length && valid_check
   end
 
   def place(ship, coordinates)
