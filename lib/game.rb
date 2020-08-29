@@ -5,18 +5,41 @@ require "./lib/player"
 
 class Game
   attr_reader :player, :cpu, :winner
+  attr_accessor :coordinates
 
   def initialize
     @player = Player.new
     @cpu = Player.new
     @winner = nil
+    @coordinates =["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2",
+                   "C3", "C4", "D1", "D2", "D3", "D4"]
+  end
+
+  def introduction
+    puts "Welcome to BATTLESHIP"
+    puts "Enter p to play. Enter q to quit."
+    input = gets.chomp
+    if input == "p"
+      set_player_name
+    elsif input == "q"
+      abort("We'll see you next time!")
+    end
+  end
+
+  def set_player_name
+    player.name = nil
+    puts "What is your name? You may leave this blank to not be named."
+    input = gets.chomp
+    player.name = input if input != ""
+    start()
   end
 
   def start
     @cpu.place_ship(@cpu.cruiser, @cpu.pick_random_ship_coordinates(@cpu.cruiser))
-    # @cpu.place_ship(@cpu.submarine, @cpu.pick_random_ship_coordinates(@cpu.submarine))
+    @cpu.place_ship(@cpu.submarine, @cpu.pick_random_ship_coordinates(@cpu.submarine))
 
     puts "I have laid out my ships on the grid."
+    puts "Now it's your turn #{player.name}."
     puts "You now need to lay out your two ships."
     puts "The Cruiser is three units long and the Submarine is two units long."
 
@@ -62,26 +85,38 @@ class Game
     puts @player.board.render(true)
 
     puts "Enter the coordinate for your shot:"
-    get_coordinate_to_fire_on
+    user_get_coordinate_to_fire_on
 
-    cpu_coordinate_choice = @player.board.cells.keys.sample
+    cpu_coordinate_choice = computer_get_coordinate_to_fire_on()
     @player.receive_fire(cpu_coordinate_choice)
     if @player.has_lost? || @cpu.has_lost?
-      @cpu.has_lost? ? (puts "You won!") : (puts "I won!")
+      @cpu.has_lost? ? (puts "Congrats #{player.name}. You won!") : (puts "I won!")
       system 'ruby battleship_runner.rb'
     else
       turn()
     end
   end
 
-  def get_coordinate_to_fire_on
+  def user_get_coordinate_to_fire_on
     input = gets.chomp
-    if @player.board.valid_coordinate?(input)
+    if @player.board.valid_coordinate?(input) && new_coordinate_chosen?(input)
       @cpu.receive_fire(input)
+    elsif @player.board.valid_coordinate?(input) && !new_coordinate_chosen?(input)
+      puts "You've already chosen this coordinate."
+      puts "I'm nice and I'll let you choose again."
+      user_get_coordinate_to_fire_on()
     else
       puts "Please enter a valid coordinate:"
-      get_coordinate_to_fire_on()
+      user_get_coordinate_to_fire_on()
     end
+  end
+
+  def computer_get_coordinate_to_fire_on
+    @coordinates.delete(coordinates.sample)
+  end
+
+  def new_coordinate_chosen?(input)
+    @cpu.board.cells[input].render == "."
   end
 
 end
