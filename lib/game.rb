@@ -28,7 +28,6 @@ class Game
   end
 
   def set_player_name
-    @player.name = nil
     puts "What is your name? You may leave this blank to not be named."
     input = gets.chomp
     @player.name = input if input != ""

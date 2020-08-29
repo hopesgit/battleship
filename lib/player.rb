@@ -6,7 +6,7 @@ class Player
   attr_reader :cruiser, :submarine
 
   def initialize(board = Board.new(4,4))
-    @name = nil
+    @name = "General"
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
     @board = board
