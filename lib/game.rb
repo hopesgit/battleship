@@ -19,12 +19,12 @@ class Game
     if input == "p"
       set_player_name()
     elsif input == "q"
-      puts "We'll see you next time!"
+      abort ("We'll see you next time!")
+      0
     else
       puts "Lets try that again..."
       introduction()
     end
-    exit()
   end
 
   def set_player_name
@@ -141,5 +141,10 @@ class Game
   def cpu_coordinate_generator
      @cpu_fire_options = @player.board.cells.keys
   end
+
+  # def goodbye_message
+  #   puts "We'll see you next time!"
+  #   exit!
+  # end
 
 end
