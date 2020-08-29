@@ -40,10 +40,10 @@ class Game
   end
 
   def set_custom_board_size
-    puts "Please enter the number of columns (up to 20): "
-    column_size = gets.chomp.to_i
     puts "Please enter the number of rows (up to 26): "
     row_size = gets.chomp.to_i
+    puts "Please enter the number of columns (up to 10): "
+    column_size = gets.chomp.to_i
     @cpu = Player.new(Board.new(row_size, column_size))
     @player = Player.new(Board.new(row_size, column_size))
     cpu_coordinate_generator()
@@ -97,7 +97,7 @@ class Game
 
   def turn
     puts "=============COMPUTER BOARD============="
-    puts @cpu.board.render
+    puts @cpu.board.render(true)
 
     puts "==============PLAYER BOARD=============="
     puts @player.board.render(true)

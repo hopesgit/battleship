@@ -8,12 +8,12 @@ class Board
     @letters = letters
     @numbers = numbers
     @cells = generate_cells(letters, numbers)
-    @valid_coordinates = generate_valid_coordinates
+    @valid_coordinates = generate_valid_coordinates()
   end
 
   def generate_coordinates_array(letters, numbers)
     alphabet = ("A".."Z").to_a[(0..(letters - 1))]
-    numerals = ("1".."20").to_a[(0..(numbers - 1))]
+    numerals = ("1".."10").to_a[(0..(numbers - 1))]
     alphabet.map do |letter|
       numerals.map { |number| letter + number}
     end.flatten!
@@ -32,12 +32,12 @@ class Board
   end
 
   def generate_valid_coordinates
-    valid_coordinates = Array.new
+    coordinate_options = Array.new
 
     @cells.keys.each_slice(@numbers) do |column|
-      valid_coordinates.push(column)
+      coordinate_options.push(column)
     end
-    valid_coordinates += valid_coordinates.transpose
+    coordinate_options += coordinate_options.transpose
   end
 
   def coordinates_empty?(coordinates)
