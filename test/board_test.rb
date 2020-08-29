@@ -35,6 +35,15 @@ class BoardTest < Minitest::Test
     refute board.valid_coordinate?("A22")
   end
 
+  def test_it_can_validate_non_standard_dimensions
+    board = Board.new(7,7)
+
+    assert board.valid_coordinate?("A4")
+    assert board.valid_coordinate?("A7")
+    assert_equal false, board.valid_coordinate?("A22")
+    assert board.valid_coordinate?("G7")
+  end
+
   def test_it_has_valid_placement_method
     board = Board.new
 
