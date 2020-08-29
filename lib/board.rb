@@ -2,7 +2,7 @@ require "./lib/ship"
 require "./lib/cell"
 
 class Board
-  attr_reader :cells, :valid_coordinates
+  attr_reader :cells
 
   def initialize
     @cells = generate_cells
