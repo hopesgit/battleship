@@ -20,17 +20,17 @@ class Game
     puts "Enter p to play. Enter q to quit."
     input = gets.chomp
     if input == "p"
-      set_player_name
+      set_player_name()
     elsif input == "q"
       abort("We'll see you next time!")
     end
   end
 
   def set_player_name
-    player.name = nil
+    @player.name = nil
     puts "What is your name? You may leave this blank to not be named."
     input = gets.chomp
-    player.name = input if input != ""
+    @player.name = input if input != ""
     start()
   end
 
@@ -88,6 +88,7 @@ class Game
     user_get_coordinate_to_fire_on
 
     cpu_coordinate_choice = computer_get_coordinate_to_fire_on()
+
     @player.receive_fire(cpu_coordinate_choice)
     if @player.has_lost? || @cpu.has_lost?
       @cpu.has_lost? ? (puts "Congrats #{player.name}. You won!") : (puts "I won!")
