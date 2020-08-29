@@ -19,8 +19,12 @@ class Game
     if input == "p"
       set_player_name()
     elsif input == "q"
-      return abort("We'll see you next time!")
+      puts "We'll see you next time!"
+    else
+      puts "Lets try that again..."
+      introduction()
     end
+    exit()
   end
 
   def set_player_name
