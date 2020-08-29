@@ -2,7 +2,7 @@ require "./lib/ship"
 require "./lib/cell"
 
 class Board
-  attr_reader :cells
+  attr_reader :cells, :valid_coordinates
 
   def initialize(letters = 4, numbers = 4)
     @letters = letters
