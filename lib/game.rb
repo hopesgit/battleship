@@ -4,13 +4,12 @@ require "./lib/board"
 require "./lib/player"
 
 class Game
-  attr_reader :player, :cpu, :winner
+  attr_reader :player, :cpu
   attr_accessor :coordinates
 
   def initialize
     @player = Player.new
     @cpu = Player.new
-    @winner = nil
     @coordinates =["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2",
                    "C3", "C4", "D1", "D2", "D3", "D4"]
   end
