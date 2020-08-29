@@ -18,6 +18,14 @@ class BoardTest < Minitest::Test
     assert_instance_of Cell, board.cells["D4"]
   end
 
+  def test_it_can_generate_cells_based_on_board_dimensions
+    board = Board.new
+    board2 = Board.new(5,5)
+
+    assert_equal 16, board.cells.keys.count
+    assert_equal 25, board2.cells.keys.count
+  end
+
   def test_it_can_validate_coordinates
     board = Board.new
 
