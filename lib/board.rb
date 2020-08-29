@@ -4,15 +4,24 @@ require "./lib/cell"
 class Board
   attr_reader :cells, :valid_coordinates
 
-  def initialize
-    @cells = generate_cells
+  def initialize(letters = 4, numbers = 4)
+    @letters = letters
+    @numbers = numbers
+    @cells = generate_cells(letters, numbers)
     @valid_coordinates = generate_valid_coordinates
   end
 
-  def generate_cells
+  def generate_coordinates_array(letters, numbers)
+    alphabet = ("A".."Z").to_a[(0..(letters - 1))]
+    numerals = ("1".."20").to_a[(0..(numbers - 1))]
+    alphabet.map do |letter|
+      numerals.map { |number| letter + number}
+    end.flatten!
+  end
+
+  def generate_cells(letters, numbers)
     cell_hash = {}
-    coordinates = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4"]
-    coordinates.each do |coordinate|
+    generate_coordinates_array(letters, numbers).each do |coordinate|
       cell_hash[coordinate] = Cell.new(coordinate)
     end
     cell_hash
@@ -25,7 +34,7 @@ class Board
   def generate_valid_coordinates
     valid_coordinates = Array.new
 
-    @cells.keys.each_slice(4) do |column|
+    @cells.keys.each_slice(@numbers) do |column|
       valid_coordinates.push(column)
     end
     valid_coordinates += valid_coordinates.transpose
@@ -56,16 +65,20 @@ class Board
 
   def render_prep(reveal = false)
     base = render_base(reveal)
-    base.insert(12, "D")
-    base.insert(8, "C")
-    base.insert(4, "B")
-    base.unshift([" ", "1", "2", "3", "4", "A"]).flatten!
-    base
+    insert_pos = (@letters * @numbers)
+    alphabet = ("A".."Z").to_a[(0..(@letters - 1))]
+    numerals = ("1".."20").to_a[(0..(@numbers - 1))]
+    until alphabet.empty?
+      insert_pos -= @numbers
+      base.insert(insert_pos, alphabet.last)
+      alphabet.pop
+    end
+    base.unshift([" ", numerals]).flatten!
   end
 
   def render(reveal = false)
     text_to_render = []
-    render_prep(reveal).each_slice(5) do |line|
+    render_prep(reveal).each_slice(@numbers + 1) do |line|
       text_to_render << line.join(" ")
     end
     text_to_render.join("\n")
