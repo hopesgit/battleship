@@ -97,7 +97,7 @@ class Game
 
   def turn
     puts "=============COMPUTER BOARD============="
-    puts @cpu.board.render(true)
+    puts @cpu.board.render()
 
     puts "==============PLAYER BOARD=============="
     puts @player.board.render(true)
