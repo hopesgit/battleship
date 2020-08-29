@@ -78,7 +78,7 @@ class Board
 
   def render(reveal = false)
     text_to_render = []
-    render_prep(reveal).each_slice(@letters + 1) do |line|
+    render_prep(reveal).each_slice(@numbers + 1) do |line|
       text_to_render << line.join(" ")
     end
     text_to_render.join("\n")

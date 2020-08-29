@@ -144,4 +144,24 @@ class BoardTest < Minitest::Test
 
     assert_equal "  1 2 3 4 5 6\nA . . . . . .\nB . . . . . .\nC . . . . . .\nD . . . . . .\nE . . . . . .\nF . . . . . .", board.render
   end
+
+  def test_rendering_mid_game_board_of_unusual_size
+    board = Board.new(4,5)
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    board.place(cruiser, ["A5", "B5", "C5"])
+    board.place(submarine, ["C4", "D4"])
+
+    board.cells["A1"].fire_upon
+    board.cells["A2"].fire_upon
+    board.cells["A3"].fire_upon
+    board.cells["B5"].fire_upon
+    board.cells["C2"].fire_upon
+    board.cells["C4"].fire_upon
+    board.cells["D4"].fire_upon
+
+    assert_equal "  1 2 3 4 5\nA M M M . .\nB . . . . H\nC . M . X .\nD . . . X .", board.render
+    assert_equal "  1 2 3 4 5\nA M M M . S\nB . . . . H\nC . M . X S\nD . . . X .", board.render(true)
+  end
 end
