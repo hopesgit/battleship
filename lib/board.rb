@@ -12,12 +12,10 @@ class Board
   end
 
   def generate_coordinates_array(letters = 4, numbers = 4)
-    alphabet = ("A".."Z").to_a
-    alphabet_selection = alphabet[(0..(letters - 1))]
-    numerals = ("1".."20").to_a
-    numerals_selection = numerals[(0..(numbers - 1))]
-    alphabet_selection.map do |letter|
-      numerals_selection.map { |number| letter + number}
+    alphabet = ("A".."Z").to_a[(0..(letters - 1))]
+    numerals = ("1".."20").to_a[(0..(numbers - 1))]
+    alphabet.map do |letter|
+      numerals.map { |number| letter + number}
     end.flatten!
   end
 
@@ -68,16 +66,14 @@ class Board
   def render_prep(reveal = false)
     base = render_base(reveal)
     insert_pos = (@letters * @numbers)
-    alphabet = ("A".."Z").to_a
-    alphabet_selection = alphabet[(0..(@letters - 1))]
-    numerals = ("1".."20").to_a
-    numerals_selection = numerals[(0..(@numbers - 1))]
-    until alphabet_selection.empty?
+    alphabet = ("A".."Z").to_a[(0..(@letters - 1))]
+    numerals = ("1".."20").to_a[(0..(@numbers - 1))]
+    until alphabet.empty?
       insert_pos -= @numbers
-      base.insert(insert_pos, alphabet_selection.last)
-      alphabet_selection.pop
+      base.insert(insert_pos, alphabet.last)
+      alphabet.pop
     end
-    base.unshift([" ", numerals_selection]).flatten!
+    base.unshift([" ", numerals]).flatten!
   end
 
   def render(reveal = false)
