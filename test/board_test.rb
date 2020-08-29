@@ -138,4 +138,10 @@ class BoardTest < Minitest::Test
     assert_equal "  1 2 3 4\nA X X X .\nB . . . .\nC . M . .\nD . . H .", board.render
     assert_equal "  1 2 3 4\nA X X X .\nB . . . .\nC . M S .\nD . . H .", board.render(true)
   end
+
+  def test_rendering_bare_board_of_large_size
+    board = Board.new(6,6)
+
+    assert_equal "  1 2 3 4 5 6\nA . . . . . .\nB . . . . . .\nC . . . . . .\nD . . . . . .\nE . . . . . .\nF . . . . . .", board.render
+  end
 end

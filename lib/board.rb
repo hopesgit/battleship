@@ -67,16 +67,22 @@ class Board
 
   def render_prep(reveal = false)
     base = render_base(reveal)
-    base.insert(12, "D")
-    base.insert(8, "C")
-    base.insert(4, "B")
-    base.unshift([" ", "1", "2", "3", "4", "A"]).flatten!
-    base
+    insert_pos = (@letters * @numbers)
+    alphabet = ("A".."Z").to_a
+    alphabet_selection = alphabet[(0..(@letters - 1))]
+    numerals = ("1".."20").to_a
+    numerals_selection = numerals[(0..(@numbers - 1))]
+    until alphabet_selection.empty?
+      insert_pos -= @numbers
+      base.insert(insert_pos, alphabet_selection.last)
+      alphabet_selection.pop
+    end
+    base.unshift([" ", numerals_selection]).flatten!
   end
 
   def render(reveal = false)
     text_to_render = []
-    render_prep(reveal).each_slice(5) do |line|
+    render_prep(reveal).each_slice(@letters + 1) do |line|
       text_to_render << line.join(" ")
     end
     text_to_render.join("\n")
