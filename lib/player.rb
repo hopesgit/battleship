@@ -2,14 +2,14 @@ require './lib/ship'
 require './lib/board'
 
 class Player
-  attr_accessor :name
-  attr_reader :cruiser, :submarine, :board
+  attr_accessor :name, :board
+  attr_reader :cruiser, :submarine
 
-  def initialize
+  def initialize(board = Board.new(4,4))
     @name = nil
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
-    @board = Board.new
+    @board = board
   end
 
   def pick_random_ship_coordinates(ship)

@@ -4,14 +4,12 @@ require "./lib/board"
 require "./lib/player"
 
 class Game
-  attr_reader :player, :cpu
-  attr_accessor :coordinates
+  attr_accessor :coordinates, :player, :cpu
 
   def initialize
     @player = Player.new
     @cpu = Player.new
-    @coordinates =["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2",
-                   "C3", "C4", "D1", "D2", "D3", "D4"]
+    @cpu_fire_options = cpu_coordinate_generator()
   end
 
   def introduction
@@ -21,7 +19,7 @@ class Game
     if input == "p"
       set_player_name()
     elsif input == "q"
-      abort("We'll see you next time!")
+      return abort("We'll see you next time!")
     end
   end
 
@@ -30,16 +28,33 @@ class Game
     puts "What is your name? You may leave this blank to not be named."
     input = gets.chomp
     @player.name = input if input != ""
+    puts "Would you like to change the size of the board from 4x4?"
+    puts "y for Yes and n for No"
+    input2 = gets.chomp
+    set_custom_board_size() if input2 == "y"
+    start()
+  end
+
+  def set_custom_board_size
+    puts "Please enter the number of columns (up to 20): "
+    column_size = gets.chomp.to_i
+    puts "Please enter the number of rows (up to 26): "
+    row_size = gets.chomp.to_i
+    @cpu = Player.new(Board.new(row_size, column_size))
+    @player = Player.new(Board.new(row_size, column_size))
+    cpu_coordinate_generator()
     start()
   end
 
   def start
+    puts "========================================"
     @cpu.place_ship(@cpu.cruiser, @cpu.pick_random_ship_coordinates(@cpu.cruiser))
     @cpu.place_ship(@cpu.submarine, @cpu.pick_random_ship_coordinates(@cpu.submarine))
 
     puts "I have laid out my ships on the grid."
     puts "Now it's your turn #{player.name}."
     puts "You now need to lay out your two ships."
+    puts "========================================"
     puts "The Cruiser is three units long and the Submarine is two units long."
 
     puts @player.board.render
@@ -112,11 +127,15 @@ class Game
   end
 
   def computer_get_coordinate_to_fire_on
-    @coordinates.delete(coordinates.sample)
+    @cpu_fire_options.delete(@cpu_fire_options.sample)
   end
 
   def new_coordinate_chosen?(input)
     @cpu.board.cells[input].render == "."
+  end
+
+  def cpu_coordinate_generator
+     @cpu_fire_options = @player.board.cells.keys
   end
 
 end
