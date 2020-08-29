@@ -22,7 +22,7 @@ class ShipTest < Minitest::Test
     assert_equal 3, cruiser.length
   end
 
-  def test_it_has_health_attribute
+  def test_it_has_health
     cruiser = Ship.new("Cruiser", 3)
 
     assert_equal 3, cruiser.health
@@ -37,11 +37,7 @@ class ShipTest < Minitest::Test
   def test_it_can_get_hit
     cruiser = Ship.new("Cruiser", 3)
 
-    assert cruiser.respond_to?(:hit)
-  end
-
-  def test_hit_reduces_health_by_one
-    cruiser = Ship.new("Cruiser", 3)
+    assert_equal 3, cruiser.health
 
     cruiser.hit
 
@@ -53,11 +49,11 @@ class ShipTest < Minitest::Test
 
     cruiser.hit
 
-    refute cruiser.sunk?
+    assert_equal false, cruiser.sunk?
 
     cruiser.hit
 
-    refute cruiser.sunk?
+    assert_equal false, cruiser.sunk?
 
     cruiser.hit
 

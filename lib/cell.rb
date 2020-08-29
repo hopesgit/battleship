@@ -24,20 +24,20 @@ class Cell
   def fire_upon
     if @fired_upon == false
       @fired_upon = true
-      ship.hit if empty? == false
+      ship.hit unless empty?
     else
       "This cell has already been fired upon."
     end
   end
 
   def render(show = false)
-    if @fired_upon == false && empty? == false && show == true
+    if fired_upon? == false && empty? == false && show
       "S"
-    elsif @fired_upon == true && empty? == false && ship.health > 0
+    elsif fired_upon? && empty? == false && ship.health > 0
       "H"
-    elsif @fired_upon == true && empty? == false && ship.health == 0
+    elsif fired_upon? && empty? == false
       "X"
-    elsif @fired_upon == true && empty? == true
+    elsif fired_upon? && empty?
       "M"
     else
       "."

@@ -28,12 +28,6 @@ class CellTest < Minitest::Test
     assert_nil cell.ship
   end
 
-  def test_it_is_created_empty
-    cell = Cell.new("B4")
-
-    assert cell.empty?
-  end
-
   def test_it_can_have_ship_placed_on_it
     cell = Cell.new("B4")
 
@@ -117,7 +111,7 @@ class CellTest < Minitest::Test
 
     cell.fire_upon
 
-    assert_equal true, cell.ship.sunk?
+    assert cell.ship.sunk?
     assert_equal "X", cell.render
   end
 end
