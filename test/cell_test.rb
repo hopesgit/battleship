@@ -16,12 +16,6 @@ class CellTest < Minitest::Test
     assert_equal "B4", cell.coordinate
   end
 
-  def test_it_can_reference_ship
-    cell = Cell.new("B4")
-
-    assert cell.respond_to?(:ship)
-  end
-
   def test_it_is_created_without_ship_placed
     cell = Cell.new("B4")
 
@@ -30,21 +24,16 @@ class CellTest < Minitest::Test
 
   def test_it_can_have_ship_placed_on_it
     cell = Cell.new("B4")
-
-    assert cell.respond_to?(:place_ship)
-  end
-
-  def test_it_can_access_ship_when_placed
-    cell = Cell.new("B4")
-
     cruiser = Ship.new("Cruiser", 3)
+
+    assert_nil cell.ship
 
     cell.place_ship(cruiser)
 
-    assert_instance_of Ship, cell.ship
+    assert_equal cruiser, cell.ship
   end
 
-  def test_fire_upon_attribute
+  def test_fired_upon_attribute
     cell = Cell.new("A3")
     submarine = Ship.new("Submarine", 2)
     cell.place_ship(submarine)
@@ -88,7 +77,6 @@ class CellTest < Minitest::Test
   end
 
   def test_it_can_render_hit
-
     cell = Cell.new("A3")
     cruiser = Ship.new("Cruiser", 3)
 
