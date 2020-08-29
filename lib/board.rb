@@ -11,7 +11,7 @@ class Board
     @valid_coordinates = generate_valid_coordinates
   end
 
-  def generate_coordinates_array(letters = 4, numbers = 4)
+  def generate_coordinates_array(letters, numbers)
     alphabet = ("A".."Z").to_a[(0..(letters - 1))]
     numerals = ("1".."20").to_a[(0..(numbers - 1))]
     alphabet.map do |letter|
@@ -19,7 +19,7 @@ class Board
     end.flatten!
   end
 
-  def generate_cells(letters = 4, numbers = 4)
+  def generate_cells(letters, numbers)
     cell_hash = {}
     generate_coordinates_array(letters, numbers).each do |coordinate|
       cell_hash[coordinate] = Cell.new(coordinate)
