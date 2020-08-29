@@ -1,4 +1,3 @@
-require 'fileutils'
 require "./lib/ship"
 require "./lib/cell"
 require "./lib/board"
@@ -15,7 +14,7 @@ class Game
 
   def start
     @cpu.place_ship(@cpu.cruiser, @cpu.pick_random_ship_coordinates(@cpu.cruiser))
-    @cpu.place_ship(@cpu.submarine, @cpu.pick_random_ship_coordinates(@cpu.submarine))
+    # @cpu.place_ship(@cpu.submarine, @cpu.pick_random_ship_coordinates(@cpu.submarine))
 
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your two ships."
@@ -69,6 +68,7 @@ class Game
     @player.receive_fire(cpu_coordinate_choice)
     if @player.has_lost? || @cpu.has_lost?
       @cpu.has_lost? ? (puts "You won!") : (puts "I won!")
+      system 'ruby battleship_runner.rb'
     else
       turn()
     end
