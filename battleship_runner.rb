@@ -1,3 +1,3 @@
 require './lib/game'
 
-Game.new.introduction
+Game.new.play

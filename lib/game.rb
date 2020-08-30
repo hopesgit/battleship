@@ -9,21 +9,43 @@ class Game
   def initialize
     @player = Player.new
     @cpu = Player.new
-    @cpu_fire_options = cpu_coordinate_generator()
+    @cpu_fire_options = cpu_coordinate_generator
   end
 
-  def introduction
+  def play
+    game_intro
+    set_custom_board_size
+    set_player_name
+    cpu_coordinate_generator
+    start
+  end
+
+  def game_intro
     puts "Welcome to BATTLESHIP"
-    puts "Enter p to play. Enter q to quit."
-    input = gets.chomp
-    if input == "p"
-      set_player_name()
-    elsif input == "q"
-      abort ("We'll see you next time!")
-      0
-    else
-      puts "Lets try that again..."
-      introduction()
+    loop do
+      puts "Enter p to play. Enter q to quit."
+      input = gets.chomp
+      if input == "p"
+        break
+      elsif input == "q"
+        abort("We'll see you next time!")
+      else
+        puts "Lets try that again."
+      end
+    end
+  end
+
+  def set_custom_board_size
+    puts "Would you like to change the size of the board from 4x4?"
+    puts "y for Yes and n for No"
+    input2 = gets.chomp
+    if input2 == "y"
+      puts "Please enter the number of rows (up to 26): "
+      row_size = gets.chomp.to_i
+      puts "Please enter the number of columns (up to 10): "
+      column_size = gets.chomp.to_i
+      @cpu = Player.new(Board.new(row_size, column_size))
+      @player = Player.new(Board.new(row_size, column_size))
     end
   end
 
@@ -31,22 +53,6 @@ class Game
     puts "What is your name? You may leave this blank to not be named."
     input = gets.chomp
     @player.name = input if input != ""
-    puts "Would you like to change the size of the board from 4x4?"
-    puts "y for Yes and n for No"
-    input2 = gets.chomp
-    set_custom_board_size() if input2 == "y"
-    start()
-  end
-
-  def set_custom_board_size
-    puts "Please enter the number of rows (up to 26): "
-    row_size = gets.chomp.to_i
-    puts "Please enter the number of columns (up to 10): "
-    column_size = gets.chomp.to_i
-    @cpu = Player.new(Board.new(row_size, column_size))
-    @player = Player.new(Board.new(row_size, column_size))
-    cpu_coordinate_generator()
-    start()
   end
 
   def start
@@ -68,7 +74,7 @@ class Game
     puts "Enter the squares for the Submarine (2 spaces):"
     get_submarine_input
 
-    turn()
+    turn
 
   end
 
@@ -90,13 +96,14 @@ class Game
       puts @player.board.render(true)
     else
       puts "Those are invalid coordinates. Please try again:"
-      get_submarine_input()
+      get_submarine_input
     end
   end
 
   def turn
+    sleep 1
     puts "=============COMPUTER BOARD============="
-    puts @cpu.board.render()
+    puts @cpu.board.render
 
     puts "==============PLAYER BOARD=============="
     puts @player.board.render(true)
@@ -104,14 +111,14 @@ class Game
     puts "Enter the coordinate for your shot:"
     user_get_coordinate_to_fire_on
 
-    cpu_coordinate_choice = computer_get_coordinate_to_fire_on()
+    cpu_coordinate_choice = computer_get_coordinate_to_fire_on
 
     @player.receive_fire(cpu_coordinate_choice)
     if @player.has_lost? || @cpu.has_lost?
       @cpu.has_lost? ? (puts "Congrats #{player.name}. You won!") : (puts "I won!")
-      system 'ruby battleship_runner.rb'
+      Game.new.play
     else
-      turn()
+      turn
     end
   end
 
@@ -122,10 +129,10 @@ class Game
     elsif @player.board.valid_coordinate?(input) && !new_coordinate_chosen?(input)
       puts "You've already chosen this coordinate."
       puts "I'm nice and I'll let you choose again."
-      user_get_coordinate_to_fire_on()
+      user_get_coordinate_to_fire_on
     else
       puts "Please enter a valid coordinate:"
-      user_get_coordinate_to_fire_on()
+      user_get_coordinate_to_fire_on
     end
   end
 

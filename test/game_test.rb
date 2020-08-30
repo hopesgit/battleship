@@ -15,6 +15,5 @@ class GameTest < Minitest::Test
 
     assert_instance_of Player, game.player
     assert_instance_of Player, game.cpu
-    assert_nil game.winner
   end
 end
