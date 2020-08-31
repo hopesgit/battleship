@@ -22,11 +22,19 @@ class Game
     start_again
   end
 
+  def user_input_1
+    gets.chomp
+  end
+
+  def user_input_2
+    gets.chomp
+  end
+
   def game_intro
     puts "Welcome to BATTLESHIP"
     loop do
       puts "Enter p to play. Enter q to quit."
-      input = gets.chomp.downcase
+      input = user_input_1.downcase
       if input == "p"
         break
       elsif input == "q"
@@ -40,7 +48,7 @@ class Game
   def set_custom_board_size
     puts "Would you like to change the size of the board from 4x4?"
     puts "y for Yes and n for No"
-    input = gets.chomp.downcase
+    input = user_input_1.downcase
     if input == "y"
       board_size_user_input
     elsif input == "n"
@@ -53,9 +61,9 @@ class Game
 
   def board_size_user_input
     puts "Please enter the number of rows (up to 26): "
-    row_size = gets.chomp.to_i
+    row_size = user_input_1.to_i
     puts "Please enter the number of columns (up to 10): "
-    column_size = gets.chomp.to_i
+    column_size = user_input_2.to_i
     if (row_size * column_size) < 6 || column_size > 10 || row_size > 26
       puts "Something went wrong. Please try again: "
       board_size_user_input
@@ -68,7 +76,7 @@ class Game
 
   def set_player_name
     puts "What is your name? You may leave this blank to not be named."
-    input = gets.chomp
+    input = user_input_1
     @player.name = input if input != ""
   end
 
@@ -89,7 +97,7 @@ class Game
   end
 
   def get_cruiser_input
-    cruiser_input = gets.chomp.upcase.split(' ')
+    cruiser_input = user_input_1.upcase.split(' ')
     if @player.board.valid_placement?(@player.cruiser, cruiser_input)
       @player.place_ship(@player.cruiser, cruiser_input)
       puts @player.board.render(true)
@@ -100,7 +108,7 @@ class Game
   end
 
   def get_submarine_input
-    submarine_input = gets.chomp.upcase.split(' ')
+    submarine_input = user_input_2.upcase.split(' ')
     if @player.board.valid_placement?(@player.submarine, submarine_input)
       @player.place_ship(@player.submarine, submarine_input)
       puts @player.board.render(true)
