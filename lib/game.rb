@@ -132,6 +132,10 @@ class Game
     end
   end
 
+  def sunk_declaration(coord)
+    puts "You sunk my #{cell[coord].ship.name}!"
+  end
+
   def winner?
     @player.has_lost? || @cpu.has_lost?
   end
@@ -147,9 +151,10 @@ class Game
   end
 
   def user_get_coordinate_to_fire_on
-    input = gets.chomp.upcase
+    input = user_input_1.upcase
     if @player.board.valid_coordinate?(input) && new_coordinate_chosen?(input)
       @cpu.receive_fire(input)
+      sunk_declaration(input) if cpu.board.cells[input].ship.sunk?
     elsif @player.board.valid_coordinate?(input) && !new_coordinate_chosen?(input)
       puts "You've already chosen this coordinate."
       puts "I'm nice and I'll let you choose again."
@@ -170,5 +175,9 @@ class Game
 
   def cpu_coordinate_generator
      @cpu_fire_options = @player.board.cells.keys
+  end
+
+  def find_cells_containing_ship(player_or_cpu, ship)
+    player_or_cpu.find_cells_containing_ship(ship)
   end
 end

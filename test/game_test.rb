@@ -49,7 +49,13 @@ class GameTest < Minitest::Test
     assert_equal 30, game.cpu.board.cells.count
   end
 
-  def test_player_placing_ships
+  def test_player_placing_cruiser
     game = Game.new
+    game.stubs(:user_input_1).returns("B1 B2 B3")
+    game.stubs(:user_input_2).returns("C1 C2")
+    game.place_player_ships
+
+    assert_equal ["B1", "B2", "B3"], game.find_cells_containing_ship(game.player, game.player.cruiser)
+    assert_equal ["C1", "C2"], game.find_cells_containing_ship(game.player, game.player.submarine)
   end
 end
