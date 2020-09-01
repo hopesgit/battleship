@@ -73,7 +73,7 @@ class Game
   end
 
   def get_cruiser_input
-    cruiser_input = gets.chomp.split(' ')
+    cruiser_input = gets.chomp.upcase.split(' ')
     if @player.board.valid_placement?(@player.cruiser, cruiser_input)
       @player.place_ship(@player.cruiser, cruiser_input)
       puts @player.board.render(true)
@@ -84,7 +84,7 @@ class Game
   end
 
   def get_submarine_input
-    submarine_input = gets.chomp.split(' ')
+    submarine_input = gets.chomp.upcase.split(' ')
     if @player.board.valid_placement?(@player.submarine, submarine_input)
       @player.place_ship(@player.submarine, submarine_input)
       puts @player.board.render(true)
@@ -116,7 +116,7 @@ class Game
   end
 
   def user_get_coordinate_to_fire_on
-    input = gets.chomp
+    input = gets.upcase.chomp
     if @player.board.valid_coordinate?(input) && new_coordinate_chosen?(input)
       @cpu.receive_fire(input)
     elsif @player.board.valid_coordinate?(input) && !new_coordinate_chosen?(input)
@@ -140,10 +140,5 @@ class Game
   def cpu_coordinate_generator
      @cpu_fire_options = @player.board.cells.keys
   end
-
-  # def goodbye_message
-  #   puts "We'll see you next time!"
-  #   exit!
-  # end
 
 end

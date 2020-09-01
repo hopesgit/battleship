@@ -12,12 +12,6 @@ class PlayerTest < Minitest::Test
     assert_instance_of Player, user
   end
 
-  def test_a_player_does_not_start_with_name
-    user = Player.new
-
-    assert_nil user.name
-  end
-
   def test_get_player_ships
     computer = Player.new
 

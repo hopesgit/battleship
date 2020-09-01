@@ -48,9 +48,7 @@ class Board
 
   def valid_placement?(ship, coordinates)
     valid_check = @valid_coordinates.any? do |set|
-      set.each_cons(coordinates.length).any? do |sub_set|
-        sub_set == coordinates && coordinates_empty?(sub_set)
-      end
+      set.join.include?(coordinates.join) && coordinates_empty?(coordinates)
     end
     ship.length == coordinates.length && valid_check
   end
