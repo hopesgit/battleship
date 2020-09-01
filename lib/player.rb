@@ -44,4 +44,10 @@ class Player
     sample.length >= ship.length
   end
 
+  def find_cells_containing_ship(ship)
+    ship_containing_cells = board.cells.values.find_all do |cell|
+      cell.ship == ship
+    end
+    ship_containing_cells.map { |cell| cell.coordinate }
+  end
 end
