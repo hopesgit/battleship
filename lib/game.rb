@@ -133,7 +133,7 @@ class Game
   end
 
   def sunk_declaration(coord)
-    puts "You sunk my #{cell[coord].ship.name}!"
+    puts "You sunk my #{@cpu.board.cells[coord].ship.name}!"
   end
 
   def winner?
@@ -154,7 +154,7 @@ class Game
     input = user_input_1.upcase.delete(' ')
     if @player.board.valid_coordinate?(input) && new_coordinate_chosen?(input)
       @cpu.receive_fire(input)
-      sunk_declaration(input) if cpu.board.cells[input].ship.sunk?
+      sunk_declaration(input) if @cpu.board.cells[input].render == "X"
     elsif @player.board.valid_coordinate?(input) && !new_coordinate_chosen?(input)
       puts "You've already chosen this coordinate. \nI'm nice and I'll let you choose again."
       user_get_coordinate_to_fire_on
