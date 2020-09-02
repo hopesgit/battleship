@@ -148,6 +148,7 @@ class Game
     puts "Would you like to play again? \ny for Yes or n for No."
     input = gets.chomp.downcase
     Game.new.play if input == "y"
+    abort("Thank you for playing!") if input == "n"
   end
 
   def user_get_coordinate_to_fire_on
