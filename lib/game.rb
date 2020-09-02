@@ -97,7 +97,7 @@ class Game
   end
 
   def get_cruiser_input
-    cruiser_input = user_input_1.upcase.split(' ')
+    cruiser_input = user_input_1.chomp.upcase.delete(' ').scan(/.{2}/)
     if @player.board.valid_placement?(@player.cruiser, cruiser_input)
       @player.place_ship(@player.cruiser, cruiser_input)
       puts @player.board.render(true)
@@ -108,7 +108,7 @@ class Game
   end
 
   def get_submarine_input
-    submarine_input = user_input_2.upcase.split(' ')
+    submarine_input = user_input_2.chomp.upcase.delete(' ').scan(/.{2}/)
     if @player.board.valid_placement?(@player.submarine, submarine_input)
       @player.place_ship(@player.submarine, submarine_input)
       puts @player.board.render(true)
@@ -151,7 +151,7 @@ class Game
   end
 
   def user_get_coordinate_to_fire_on
-    input = user_input_1.upcase
+    input = user_input_1.upcase.delete(' ')
     if @player.board.valid_coordinate?(input) && new_coordinate_chosen?(input)
       @cpu.receive_fire(input)
       sunk_declaration(input) if cpu.board.cells[input].ship.sunk?
