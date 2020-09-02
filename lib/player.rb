@@ -13,10 +13,9 @@ class Player
   end
 
   def pick_random_ship_coordinates(ship)
-    computer_sample_set = @board.valid_coordinates.sample
-    computer_sample_placement = computer_sample_set.take(ship.length)
-    if validate_random_coordinate_length(computer_sample_set, ship) && computer_coordinates_empty?(computer_sample_placement)
-      computer_sample_placement
+    computer_sample_set = @board.valid_coordinates.sample.take(ship.length)
+    if @board.coordinates_empty?(computer_sample_set)
+      computer_sample_set
     else
       pick_random_ship_coordinates(ship)
     end
@@ -32,17 +31,7 @@ class Player
 
   def receive_fire(coordinate)
     @board.cells[coordinate].fire_upon
-  end
-
-  def computer_coordinates_empty?(computer_sample_placement)
-    computer_sample_placement.all? do |cell|
-      @board.cells[cell].empty?
-    end
-  end
-
-  def validate_random_coordinate_length(sample, ship)
-    sample.length >= ship.length
-  end
+  end 
 
   def find_cells_containing_ship(ship)
     ship_containing_cells = board.cells.values.find_all do |cell|
