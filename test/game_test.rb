@@ -73,6 +73,17 @@ class GameTest < Minitest::Test
   end
 
   def test_user_attack
-    # tests user_get_coordinate_to_fire_on
+    game = Game.new
+    game.stubs(:pick_random_ship_coordinates).returns(["B1", "B2", "B3"])
+    game.cpu.place_ship(game.cpu.cruiser, game.pick_random_ship_coordinates(game.cpu.cruiser))
+    game.stubs(:pick_random_ship_coordinates).returns(["C1", "C2"])
+    game.cpu.place_ship(game.cpu.submarine, game.pick_random_ship_coordinates(game.cpu.submarine))
+    game.stubs(:user_input_1).returns("B1 B2 B3")
+    game.stubs(:user_input_2).returns("C1 C2")
+    game.place_player_ships
+    game.stubs(:user_input_1).returns("C1")
+    game.user_get_coordinate_to_fire_on
+
+    assert_equal "H", game.cpu.board.cells["C1"].render
   end
 end
