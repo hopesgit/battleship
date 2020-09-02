@@ -82,8 +82,8 @@ class Game
 
   def cpu_place_ships
     puts "========================================"
-    @cpu.place_ship(@cpu.cruiser, @cpu.pick_random_ship_coordinates(@cpu.cruiser))
-    @cpu.place_ship(@cpu.submarine, @cpu.pick_random_ship_coordinates(@cpu.submarine))
+    @cpu.place_ship(@cpu.cruiser, pick_random_ship_coordinates(@cpu.cruiser))
+    @cpu.place_ship(@cpu.submarine, pick_random_ship_coordinates(@cpu.submarine))
     puts "I have laid out my ships on the grid. \nNow it's your turn, #{player.name}. \nYou now need to lay out your two ships."
   end
 
@@ -156,8 +156,7 @@ class Game
       @cpu.receive_fire(input)
       sunk_declaration(input) if cpu.board.cells[input].ship.sunk?
     elsif @player.board.valid_coordinate?(input) && !new_coordinate_chosen?(input)
-      puts "You've already chosen this coordinate."
-      puts "I'm nice and I'll let you choose again."
+      puts "You've already chosen this coordinate. \nI'm nice and I'll let you choose again."
       user_get_coordinate_to_fire_on
     else
       puts "Please enter a valid coordinate:"
@@ -179,5 +178,9 @@ class Game
 
   def find_cells_containing_ship(player_or_cpu, ship)
     player_or_cpu.find_cells_containing_ship(ship)
+  end
+
+  def pick_random_ship_coordinates(ship)
+    cpu.pick_random_ship_coordinates(ship)
   end
 end

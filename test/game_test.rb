@@ -49,7 +49,7 @@ class GameTest < Minitest::Test
     assert_equal 30, game.cpu.board.cells.count
   end
 
-  def test_player_placing_cruiser
+  def test_player_placing_ships
     game = Game.new
     game.stubs(:user_input_1).returns("B1 B2 B3")
     game.stubs(:user_input_2).returns("C1 C2")
@@ -57,5 +57,22 @@ class GameTest < Minitest::Test
 
     assert_equal ["B1", "B2", "B3"], game.find_cells_containing_ship(game.player, game.player.cruiser)
     assert_equal ["C1", "C2"], game.find_cells_containing_ship(game.player, game.player.submarine)
+  end
+
+  def test_cpu_placing_ships
+    game = Game.new
+    game.stubs(:pick_random_ship_coordinates).returns(["B1", "B2", "B3"])
+    game.cpu.place_ship(game.cpu.cruiser, game.pick_random_ship_coordinates(game.cpu.cruiser))
+
+    assert_equal ["B1", "B2", "B3"], game.find_cells_containing_ship(game.cpu, game.cpu.cruiser)
+
+    game.stubs(:pick_random_ship_coordinates).returns(["C1", "C2"])
+    game.cpu.place_ship(game.cpu.submarine, game.pick_random_ship_coordinates(game.cpu.submarine))
+
+    assert_equal ["C1", "C2"], game.find_cells_containing_ship(game.cpu, game.cpu.submarine)
+  end
+
+  def test_user_attack
+    # tests user_get_coordinate_to_fire_on
   end
 end
