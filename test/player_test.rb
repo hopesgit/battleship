@@ -12,6 +12,12 @@ class PlayerTest < Minitest::Test
     assert_instance_of Player, user
   end
 
+  def test_player_name_starts_as_general
+    user = Player.new
+
+    assert_equal "General", user.name
+  end
+
   def test_get_player_ships
     computer = Player.new
 
@@ -90,5 +96,13 @@ class PlayerTest < Minitest::Test
 
     assert_equal 3, computer.cruiser.health
     assert_equal 2, user.cruiser.health
+  end
+
+  def test_it_can_find_cells_that_contain_ship
+    user = Player.new
+    coordinates = ["A1", "A2", "A3"]
+    user.place_ship(user.cruiser, coordinates)
+
+    assert_equal ["A1", "A2", "A3"], user.find_cells_containing_ship(user.cruiser)
   end
 end
