@@ -2,18 +2,23 @@ require './lib/ship'
 require './lib/board'
 
 class Player
-  attr_accessor :name
-  attr_reader :cruiser, :submarine, :board
+  attr_accessor :name, :board
+  attr_reader :cruiser, :submarine
 
-  def initialize
-    @name = nil
+  def initialize(board = Board.new(4,4))
+    @name = "General"
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
-    @board = Board.new
+    @board = board
   end
 
   def pick_random_ship_coordinates(ship)
-    board.valid_coordinates.sample.take(ship.length)
+    computer_sample_set = @board.valid_coordinates.sample.take(ship.length)
+    if @board.coordinates_empty?(computer_sample_set)
+      computer_sample_set
+    else
+      pick_random_ship_coordinates(ship)
+    end
   end
 
   def has_lost?
@@ -26,6 +31,6 @@ class Player
 
   def receive_fire(coordinate)
     @board.cells[coordinate].fire_upon
-  end
+  end 
 
 end
