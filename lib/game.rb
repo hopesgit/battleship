@@ -97,7 +97,7 @@ class Game
   end
 
   def get_cruiser_input
-    cruiser_input = user_input_1.upcase.split(' ')
+    cruiser_input = user_input_1.upcase.delete(' ').scan(/.{2}/)
     if @player.board.valid_placement?(@player.cruiser, cruiser_input)
       @player.place_ship(@player.cruiser, cruiser_input)
       puts @player.board.render(true)
@@ -108,7 +108,7 @@ class Game
   end
 
   def get_submarine_input
-    submarine_input = user_input_2.upcase.split(' ')
+    submarine_input = user_input_2.upcase.delete(' ').scan(/.{2}/)
     if @player.board.valid_placement?(@player.submarine, submarine_input)
       @player.place_ship(@player.submarine, submarine_input)
       puts @player.board.render(true)
@@ -133,7 +133,7 @@ class Game
   end
 
   def sunk_declaration(coord)
-    puts "You sunk my #{cell[coord].ship.name}!"
+    puts "You sunk my #{@cpu.board.cells[coord].ship.name}!"
   end
 
   def winner?
@@ -151,10 +151,10 @@ class Game
   end
 
   def user_get_coordinate_to_fire_on
-    input = user_input_1.upcase
+    input = user_input_1.upcase.delete(' ')
     if @player.board.valid_coordinate?(input) && new_coordinate_chosen?(input)
       @cpu.receive_fire(input)
-      sunk_declaration(input) if cpu.board.cells[input].ship.sunk?
+      sunk_declaration(input) if @cpu.board.cells[input].render == "X"
     elsif @player.board.valid_coordinate?(input) && !new_coordinate_chosen?(input)
       puts "You've already chosen this coordinate. \nI'm nice and I'll let you choose again."
       user_get_coordinate_to_fire_on
