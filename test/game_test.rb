@@ -84,9 +84,27 @@ class GameTest < Minitest::Test
     game.stubs(:user_input_1).returns("C1")
 
     assert_equal ".", game.cpu.board.cells["C1"].render
-    
+
     game.user_get_coordinate_to_fire_on
 
     assert_equal "H", game.cpu.board.cells["C1"].render
+  end
+
+  def test_cpu_attack
+    game = Game.new
+    game.stubs(:pick_random_ship_coordinates).returns(["B1", "B2", "B3"])
+    game.cpu.place_ship(game.cpu.cruiser, game.pick_random_ship_coordinates(game.cpu.cruiser))
+    game.stubs(:pick_random_ship_coordinates).returns(["C1", "C2"])
+    game.cpu.place_ship(game.cpu.submarine, game.pick_random_ship_coordinates(game.cpu.submarine))
+    game.stubs(:user_input_1).returns("B1 B2 B3")
+    game.stubs(:user_input_2).returns("C1 C2")
+    game.place_player_ships
+    game.stubs(:computer_get_coordinate_to_fire_on).returns("A1")
+
+    assert_equal ".", game.player.board.cells["A1"].render
+
+    game.player.receive_fire(game.computer_get_coordinate_to_fire_on)
+
+    assert_equal "M", game.player.board.cells["A1"].render
   end
 end
