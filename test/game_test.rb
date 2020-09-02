@@ -82,6 +82,9 @@ class GameTest < Minitest::Test
     game.stubs(:user_input_2).returns("C1 C2")
     game.place_player_ships
     game.stubs(:user_input_1).returns("C1")
+
+    assert_equal ".", game.cpu.board.cells["C1"].render
+    
     game.user_get_coordinate_to_fire_on
 
     assert_equal "H", game.cpu.board.cells["C1"].render
